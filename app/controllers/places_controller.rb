@@ -1,16 +1,16 @@
 class PlacesController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy ]
   before_action :set_place, only: [:show, :edit, :update, :destroy]
 
   # GET /places
   # GET /places.json
   def index
-    @places = Place.all
+    @places = Place.search(params[:search])
   end
 
   # GET /places/1
   # GET /places/1.json
-    def show
+  def show
     @review = Review.new 
     @reviews = @place.reviews
   end
@@ -26,9 +26,8 @@ class PlacesController < ApplicationController
 
   # POST /places
   # POST /places.json
-   def create
+  def create
     @place = current_user.places.new(place_params)
-  
 
     respond_to do |format|
       if @place.save
@@ -73,7 +72,6 @@ class PlacesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def place_params
-      params.require(:place).permit(:name, :address, :description, :phone, :website)
       params.require(:place).permit(:name, :address, :phone, :description, :website )
     end
 end
