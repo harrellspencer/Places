@@ -1,70 +1,66 @@
 <div class="row">
-	
-	<!-- profile -->
-	<div class="col-md-2">
-	<h3><%= @user.name %>	</h3>
-	<%= gravatar_tag @user.email, size: 150 %>
-	</div>
+  <!-- Profile info -->
+  <div class="col-md-2">
+    <h3><%= @user.name %></h3>
+    <%= gravatar_tag @user.email, size: 150 %>
+  </div>
+  <!-- Places info -->
+  <div class="col-md-5">
+    <h3>My places</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Created</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @places.each do |place| %>
+          <tr>
+            <td><%= link_to place.name, place_path(place) %></td>
+            <td><%= time_ago_in_words(place.created_at) %></td>
+            <td><%= link_to "edit", edit_place_path(place) %> | <%= link_to "destroy", place_path(place), method: :delete %></td>
 
-	<!-- places -->
-	<div class="col-md-5">
-	<h3>My Places</h3>
-	<table class="table">
-		<thead>
-				<tr>
-					<th>Name</th>
-					<th>Created</th>
-					<th> <!-- actions --> </th>
-				</tr>
-		</thead>
-
-		<tbody>
-			<% @places.each do |place|  %>
-				<tr>
-					<td><%= link_to place.name, place_path(place) %></td>
-					<td><%= time_ago_in_words(place.created_at) %> ago</td>
-					<td><%= link_to "edit", edit_place_path(place) %> | <%= link_to "delete", place_path(place), method: :delete %></td>
-				</tr>
-				<% end %>
-		</tbody>
-	
-	</table>
-	</div>
-
-	<!-- reviews -->
-	<div class="col-md-5">
-		<h3>My Reviews</h3>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Place</th>
-					<th>When</th>
-					<th>Rating</th>
-					<th> <!-- actions --> </th>
-				</tr>
-			</thead>
-			<tbody>
-				<% @reviews.each do |review| %>
-					<tr>
-						<td><%= link_to review.place.name, place_path(review.place) %></td>
-						<td><%= time_ago_in_words(review.created_at) %> ago </td>
-						<td class="score_<%= review.id %> "></td>
-						<td><%= link_to "edit", edit_review_path(review) %> | <%= link_to "delete", review_path(review), method: :delete %></td>
-					</tr>
-				<% end %>
-			</tbody>
-		</table>
-	</div>
-
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= link_to "new Place", new_place_path %>
+  </div>
+  <!-- Reviews -->
+  <div class="col-md-5">
+    <h3>My reviews</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Place</th>
+          <th>Created</th>
+          <th>Rating</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @reviews.each do |review| %>
+          <tr>
+            <td><%= link_to review.place.name, place_path(review.place)%></td>
+            <td><%= time_ago_in_words(review.created_at) %></td>
+            <td><div class="score_<%= review.id %>"></div></td>
+            <td><%= link_to "edit", edit_review_path(review) %> | <%= link_to "Destroy", review_path(review), method: :delete %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
 
-<script>
- <% @reviews.each do |review| %>
-      $(".score_<%= review.id %> ").raty({
-      starOn: "<%= image_path('star-on.png') %>",
-      starOff: "<%= image_path('star-off.png') %>",
-      score: '<%= review.score %>',
-      readOnly: true 
-    });
-  <% end %>
+<script type="text/javascript">
+  <% @reviews.each do |review| %>
+      $(".score_<%= review.id %>").raty({
+        starOn: "<%= image_path('star-on.png')%>",
+        starOff: "<%= image_path('star-off.png')%>",
+        score: <%= review.score %>,
+        readOnly: true
+      });
+      <% end %>
 </script>
