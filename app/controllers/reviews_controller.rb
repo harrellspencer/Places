@@ -1,10 +1,13 @@
 class ReviewsController <ApplicationController
-	before_action :authenticate_user!
-	before_action :set_review, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :set_review, only: [:edit, :update, :destroy]
 
-	  def create
+  def edit
+    @place = @review.place 
+  end
+
+  def create
     @review = current_user.reviews.new(review_params)
-
     respond_to do |format|
       if @review.save
         format.html { redirect_to place_path(@review.place) , notice: 'Review was successfully created.' }
@@ -25,7 +28,6 @@ class ReviewsController <ApplicationController
   end
 
 
-
   def destroy
     @review.destroy
     respond_to do |format|
@@ -33,16 +35,8 @@ class ReviewsController <ApplicationController
     end
   end
 
-
-end
-
   private 
 
   def set_review
     @review = Review.find(params[:id])  
   end
-
-  def review_params
-    params.require(:review).permit(:content, :place_id, :score)
-  end
-
