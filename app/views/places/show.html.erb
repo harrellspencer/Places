@@ -2,6 +2,7 @@
   <div class="col-md-3">
     <h3><%= @place.name %></h3>
      <div class="average"></div>
+     <%= image_tag @place.photo.url (:small) %>
     <p>
       <strong>Address</strong>
       <%= @place.name %>
@@ -18,6 +19,9 @@
       <strong>Description</strong>
       <%= @place.description %>
     </p>
+
+
+
     <div id="map-canvas" style="width: 230px; height:230px"></div>  
   </div>
 

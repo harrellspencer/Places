@@ -8,6 +8,7 @@ class Place < ActiveRecord::Base
 	belongs_to :user
 	geocoded_by :address 
 	after_validation :geocode 
+	has_attached_file :photo, :styles => { :small => "150x150>"}
 
 	has_many :reviews, dependent: :destroy
 
