@@ -25,4 +25,4 @@ production:
   database: db/production.postgresql
 
   
-host: localhost
+
