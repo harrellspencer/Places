@@ -1,14 +1,17 @@
 class Place < ActiveRecord::Base
+	has_attached_file :avatar
+
 	validates_presence_of :name 
 	validates_presence_of :phone 
 	validates_presence_of :address 
 	validates_presence_of :website 
 	validates_presence_of :user_id 
+	validates_presence_of :avatar
 
 	belongs_to :user
 	geocoded_by :address 
 	after_validation :geocode 
-	has_attached_file :photo, :styles => { :small => "150x150>"}
+	
 
 	has_many :reviews, dependent: :destroy
 
